@@ -1,28 +1,41 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Person from "./Person/Person";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
-}
+import "./App.css";
 
-export default App;
+const app = () => {
+  const [personState, setPersonState] = useState({
+    persons: [
+      { name: "Adrian", age: 24 },
+      { name: "Guilherme", age: 22 },
+      { name: "Thiago", age: 30 }
+    ]
+  });
+
+  const [ otherState, setOtherState] = useState("Hello")
+
+  const changeNameHandler = (event) => {
+    console.log(event)
+    console.log('Fui chamado')
+    console.log(personState)
+  };
+
+  return (
+    <React.Fragment>
+      <h1> Hello World</h1>
+      <Person name={personState.persons[0].name} age={personState.persons[0].age}>
+        <p>Meus hobbies: Estudar, video-game</p>
+      </Person>
+      <Person name={personState.persons[1].name} age={personState.persons[1].age} />
+      <Person 
+        name={personState.persons[2].name} 
+        age={personState.persons[2].age} 
+        changed={changeNameHandler}
+      />
+      <button onClick={changeNameHandler}>Alterar um nome</button>
+      <p> {otherState.otherState} </p>
+    </React.Fragment>
+  );
+};
+
+export default app;
