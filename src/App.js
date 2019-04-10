@@ -9,10 +9,18 @@ const app = () => {
       { id: 1, name: "Adrian", age: 24 },
       { id: 2, name: "Guilherme", age: 22 },
       { id: 3, name: "Thiago", age: 30 }
-    ]
+    ],
+    showPersons: true
   });
 
-  const [otherState, setOtherState] = useState("Hello");
+  console.log("showPersons", personState.showPersons);
+
+  const toggleListHandler = () => {
+    setPersonState({
+      ...personState,
+      showPersons: !personState.showPersons
+    });
+  };
 
   const changeNameHandler = (event, idPessoaDigitada) => {
     const personsMod = personState.persons.map(person => {
@@ -21,37 +29,50 @@ const app = () => {
       }
 
       return person;
-    })
+    });
 
     setPersonState({
       persons: personsMod
-    })
+    });
+  };
+
+  const renderButtonLabel = () => {
+    if (!!personState.showPersons) {
+      return "Limpar Lista";
+    }
+
+    return "Exibir Lista";
+  };
+
+  const renderPersonList = () => {
+    if (!!personState.showPersons) {
+      return (
+        <div>
+          {personState.persons.map(person => {
+            return (
+              <Person
+                name={person.name}
+                age={person.age}
+                changed={event =>
+                  changeNameHandler(event, person.id)
+                }
+              >
+              </Person>
+            );
+          })}
+        </div>
+      );
+    }
+
+    return null;
   };
 
   return (
-    <React.Fragment>
+    <div className="centraliza">
       <h1 className="Person"> Hello World</h1>
-      <Person
-        name={personState.persons[0].name}
-        age={personState.persons[0].age}
-        changed={event => changeNameHandler(event, personState.persons[0].id)}
-      >
-        <p>Meus hobbies: Estudar, video-game</p>
-      </Person>
-      <Person
-        name={personState.persons[1].name}
-        age={personState.persons[1].age}
-        changed={event => changeNameHandler(event, personState.persons[1].id)}
-      />
-      <Person
-        name={personState.persons[2].name}
-        age={personState.persons[2].age}
-        changed={event => changeNameHandler(event, personState.persons[2].id)}
-      />
-      <div>
-        {/* <button onClick={changeNameHandler.bind(this, 'Fernando')}>Alterar um nome</button> */}
-      </div>
-    </React.Fragment>
+      <button onClick={toggleListHandler}>{renderButtonLabel()}</button>
+      {renderPersonList()}
+    </div>
   );
 };
 

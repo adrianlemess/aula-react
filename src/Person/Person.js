@@ -5,10 +5,14 @@ const person = props => {
   const { name, age, children, changed } = props;
 
   return (
-    <div className={PersonStyle.Person}>
+    <div className={[
+        PersonStyle.Person, 
+        PersonStyle.teste, 
+        'container-background'
+      ].join(' ')}>
       <h1> I'm {name}</h1>
       <p> I am {age} years old</p>
-      {children}
+      { children }
       <input type="text" onChange={changed} /> 
     </div>
   );
